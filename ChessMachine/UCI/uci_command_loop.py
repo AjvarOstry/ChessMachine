@@ -5,7 +5,7 @@
 import sys
 import chess
 
-machine_name = "Chess Machine"
+machine_name = "Chess Machine 1.0"
 author = "team NULL"
 
 def uci_command_loop():
