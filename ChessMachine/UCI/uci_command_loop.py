@@ -3,14 +3,17 @@
 # https://official-stockfish.github.io/docs/stockfish-wiki/UCI-&-Commands.html
 
 import sys
+from GameMechanics import open_game
+
 import chess
 
 machine_name = "Chess Machine 1.0"
 author = "team NULL"
+ruch = None
 
 def uci_command_loop():
 
-    # tu trzeba jakiegoś boarda dać
+    game_board = chess.Board()
 
     while True:
         got_command = input().strip()
@@ -40,13 +43,21 @@ def uci_command_loop():
         # uci wypisuje nam stan planszy
         # w postaci wszystkich dotychczasowych ruchów
         elif got_command.startswith("position"):
-            # parsowanie pozycji
+            game_board = parse_position(got_command, game_board)
             pass
 
         elif got_command.startswith("go"):
             #liczymy ruchy
+            best_move = None
+
+            mv = open_game(game_board)
+            if mv is not None:
+                best_move = mv.uci()
+            else:
+                pass # tu będzie nasz silnik
+
             print(f"info <jakieś debug info bota>") # tak se możemy logi wypluwać
-            print("bestmove <ruch>")
+            print(f"bestmove {best_move}")
             pass
 
         # musi być, bo się cute zawiesi
@@ -56,14 +67,12 @@ def uci_command_loop():
 # podobno taki jest protokół, więc tak się robi.
 # ale jak ktoś isę uprze to możemy zmieni
 def parse_position(got_command, board):
-    command_parts = got_command.split()
-    part_id = 1 # bo zero to position
-
-    board.reset()
-
-    if part_id < len(command_parts) and command_parts[part_id] == "moves":
-        for move in command_parts[part_id+1:]:
-            board.push_uci(move)
-
-    return board
+    def parse_position(got_command, board):
+        command_parts = got_command.split()
+        board.reset()
+        if "moves" in command_parts:
+            moves_index = command_parts.index("moves")
+            for move in command_parts[moves_index + 1:]:
+                board.push_uci(move)
+        return board
 

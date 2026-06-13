@@ -37,9 +37,9 @@ class TimeManager:
         deadline = my_time_left / self.game_time
         pressure = phase - deadline
 
-        self.estimated_rounds += pressure * 1.5
+        self.estimated_rounds += pressure * 2
 
 
         schedlued_time = my_time_left / (int(self.estimated_rounds) - rounds_passed)
 
-        return schedlued_time * m_advantage * m_time
+        return schedlued_time * 0.6 + schedlued_time * 0.4 * m_advantage * m_time
