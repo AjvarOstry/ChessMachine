@@ -1,5 +1,5 @@
 
-from analyze_board import analyze_board
+from .analyze_board import analyze_board
 import numpy as np
 
 class TimeManager:
