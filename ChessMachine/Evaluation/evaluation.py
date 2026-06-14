@@ -34,7 +34,7 @@ def initModel():
 
 
 def evaluate(board):
-    x = torch.tensor(getInputData(board), dtype=torch.float32).unsqueeze(0)
+    x = getInputData(board).detach().clone().unsqueeze(0)
 
     with torch.no_grad():
             value = model(x).item()

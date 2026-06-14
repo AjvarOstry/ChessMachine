@@ -67,12 +67,48 @@ def uci_command_loop():
 # podobno taki jest protokół, więc tak się robi.
 # ale jak ktoś isę uprze to możemy zmieni
 def parse_position(got_command, board):
-    def parse_position(got_command, board):
-        command_parts = got_command.split()
+    command_parts = got_command.split()
+    if "startpos" in command_parts:
         board.reset()
-        if "moves" in command_parts:
-            moves_index = command_parts.index("moves")
-            for move in command_parts[moves_index + 1:]:
-                board.push_uci(move)
-        return board
+    elif "fen" in command_parts:
+        fen_index = command_parts.index("fen")
+        fen = " ".join(command_parts[fen_index + 1 : fen_index + 7])
+        board.set_fen(fen)
+    
+    if "moves" in command_parts:
+        moves_index = command_parts.index("moves")
+        for move in command_parts[moves_index + 1:]:
+            board.push_uci(move)
+    return board
 
+def parse_go(got_command):
+    command_parts = got_command.split()
+
+    wtime = 0
+    btime = 0
+    winc = 0
+    binc = 0
+    movestogo = 0
+
+
+    if "wtime" in command_parts:
+        wtime_index = command_parts.index("wtime")
+        wtime = command_parts[wtime_index + 1]
+
+    if "btime" in command_parts:
+        btime_index = command_parts.index("btime")
+        btime = command_parts[btime_index + 1]
+
+    if "winc" in command_parts:
+        winc_index = command_parts.index("winc")
+        winc = command_parts[winc_index + 1]
+
+    if "binc" in command_parts:
+        binc_index = command_parts.index("binc")
+        binc = command_parts[binc_index + 1]
+
+    if "movestogo" in command_parts:
+        movestogo_index = command_parts.index("movestogo")
+        movestogo = command_parts[movestogo_index + 1]
+
+    return wtime, btime, winc, binc, movestogo
