@@ -26,44 +26,47 @@ def engine(board, time_for_round):
     hard_deadline = start + time_for_round
 
     best_move = legal_moves[0]
-    depth = 3
+    depth = 4
 
-    while time.time() < soft_deadline:
+    results = get_best_moves(board, depth, 1, hard_deadline)
+    best_move = results[0][0]
 
-        results = get_best_moves(board, depth, 1, hard_deadline)
+    # while time.time() < soft_deadline:
 
-        if results and time.time() < hard_deadline:
-            best_move = results[0][0]
+    #     results = get_best_moves(board, depth, 1, hard_deadline)
 
-            # if board.turn == 1:
-            #     best_value = -1000
-            # else:
-            #     best_value = 1000
+    #     if results and time.time() < hard_deadline:
+    #         best_move = results[0][0]
 
-            # best_index = 0
-            # for i in range(results):
-            #     for j in range(results[i]):
-            #         board.push(results[i][j])
-            #     value = evaluate(results[i])
-            #     for j in reversed(range(results[i])):
-            #         board.pop(results[i][j])
+    #         # if board.turn == 1:
+    #         #     best_value = -1000
+    #         # else:
+    #         #     best_value = 1000
 
-            #     if board.turn == 1:
-            #         if value > best_value:
-            #             best_value = value
-            #             best_index = i
+    #         # best_index = 0
+    #         # for i in range(results):
+    #         #     for j in range(results[i]):
+    #         #         board.push(results[i][j])
+    #         #     value = evaluate(results[i])
+    #         #     for j in reversed(range(results[i])):
+    #         #         board.pop(results[i][j])
 
-            #     if board.turn == 0:
-            #         if value < best_value:
-            #             best_value = value
-            #             best_index = i
+    #         #     if board.turn == 1:
+    #         #         if value > best_value:
+    #         #             best_value = value
+    #         #             best_index = i
 
-            # best_move = results[best_index][0]
+    #         #     if board.turn == 0:
+    #         #         if value < best_value:
+    #         #             best_value = value
+    #         #             best_index = i
 
-        else:
-            break
+    #         # best_move = results[best_index][0]
 
-        depth += 1
+    #     else:
+    #         break
+
+    #     depth += 1
 
     return best_move
 
