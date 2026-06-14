@@ -26,7 +26,7 @@ def engine(board, time_for_round):
     hard_deadline = start + time_for_round
 
     best_move = legal_moves[0]
-    depth = 4
+    depth = 3
 
     results = get_best_moves(board, depth, 1, hard_deadline)
     best_move = results[0][0]
