@@ -14,7 +14,7 @@ def analyze_board(board):
     black_values = 0
     # króla nie liczymy do punktów, no bo musi być na planszy no XD
 
-    for i, piece_type in piece_types:
+    for i, piece_type in enumerate(piece_types):
         white_count = len(board.pieces(piece_type, chess.WHITE))
         black_count = len(board.pieces(piece_type, chess.BLACK))
 

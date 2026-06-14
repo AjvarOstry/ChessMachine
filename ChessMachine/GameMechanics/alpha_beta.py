@@ -1,11 +1,15 @@
 import math
 
+import chess
+
+from Analytics.evaluate import evaluate
+
 INF = math.inf
 
 def alpha_beta(board, depth, alpha, beta, isMax):
 
     # do evaluate zrobię może numbą (biblioteka do kompilacji jit)
-    if depth == 0:
+    if depth == 0 or board.is_checkmate() or board.is_stalemate():
         return evaluate(board)
 
     if isMax:
@@ -86,7 +90,7 @@ def get_best_moves(board, depth):
 
     results.sort(
         key=lambda x: x[1],
-        reverse=True
+        reverse=(board.turn == chess.WHITE)
     )
 
     return results
