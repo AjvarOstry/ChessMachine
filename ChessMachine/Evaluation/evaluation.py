@@ -28,7 +28,7 @@ def initModel():
 
     model = ChessNet()
 
-    model.load_state_dict(torch.load(MODEL_FILE, map_location=torch.device("cpu")))
+    model.load_state_dict(torch.load(MODEL_FILE))
 
     model.eval()
 
