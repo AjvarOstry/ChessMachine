@@ -42,7 +42,7 @@ def engine(board, time_for_round):
 
             best_index = 0
             for i in range(results):
-                for j in results[i]:
+                for j in range(results[i]):
                     board.push(results[i][j])
                 value = evaluate(results[i])
                 for j in reversed(range(results[i])):
