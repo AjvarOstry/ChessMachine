@@ -3,3 +3,6 @@
 .idea
 /ChessMachine/GameMechanics/__pycache__
 /ChessMachine/Analytics/__pycache__
+
+# Docker
+.Dockerfile.kate-swp
