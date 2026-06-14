@@ -68,7 +68,7 @@ def alpha_beta(board, depth, alpha, beta, isMax):
 
         return value
 
-def get_best_moves(board, depth):
+def get_best_moves(board, depth, k_max):
 
     results = []
 
@@ -81,7 +81,7 @@ def get_best_moves(board, depth):
             depth - 1,
             -INF,
             INF,
-            False
+            board.turn == chess.WHITE
         )
 
         board.pop()
@@ -93,4 +93,4 @@ def get_best_moves(board, depth):
         reverse=(board.turn == chess.WHITE)
     )
 
-    return results
+    return results[:k_max]
