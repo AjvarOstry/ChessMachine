@@ -1,11 +1,20 @@
 # tablice końcówek Sygyzy 5-men
 
 import chess
+import chess.syzygy
 
+
+# na początku inicjalizujemy klasę,
+# żeby zaciągnąć dane tylko raz
+# potem wywołujemy metodę get_move,
+#która jak nie znajdzie żadnego rozwiązania
+# dążącego do wygranej, to wywala None
 class FinishHim:
 
     def __init__(self, cat_path):
         self.cat_path = cat_path
+
+        self.sygyzy_table = chess.syzygy.open_tablebase(self.cat_path)
 
 
     def get_move(self, board):
@@ -22,8 +31,8 @@ class FinishHim:
                 board.push(move)
 
                 try:
-                    WDL = self.tablebase.get_wdl(board)
-                    DTZ = self.tablebase.get_dtz(board)
+                    WDL = self.sygyzy_table.get_wdl(board)
+                    DTZ = self.sygyzy_table.get_dtz(board)
 
                     # to jest ruch z perspektywy przeciwnika,
                     #sprawdziłem. Żebym tego nie overthinkował znowu
