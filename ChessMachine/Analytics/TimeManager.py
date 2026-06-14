@@ -39,6 +39,12 @@ class TimeManager:
 
         self.estimated_rounds += pressure * 2
 
+        if (self.estimated_rounds - rounds_passed < 5 && total_count > 7):
+            self.estimated_rounds += 2
+        elif (self.estimated_rounds - rounds_passed < 1 && total_count > 5):
+            self.estimated_rounds += 3
+
+
 
         schedlued_time = my_time_left / (int(self.estimated_rounds) - rounds_passed)
 
