@@ -14,5 +14,5 @@ def main():
     uci_command_loop()
 
 if __name__ == "__main__":
-    initModel()
+    #initModel()
     main()
