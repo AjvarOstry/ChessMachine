@@ -5,6 +5,8 @@ from GameMechanics.FinishHim import FinishHim
 from GameMechanics.alpha_beta import get_best_moves
 from GameMechanics.open_game import open_game
 
+from Evaluation.evaluation import initModel
+
 
 def benchmark_game(depth=3, k_max=5, max_moves=40):
     """
@@ -54,4 +56,5 @@ def benchmark_game(depth=3, k_max=5, max_moves=40):
 
 
 if __name__ == "__main__":
+    initModel()
     benchmark_game(depth=1, k_max=5, max_moves=100)

@@ -2,7 +2,7 @@ import math
 
 import chess
 
-from Evaluation.evaluation import evaluate
+from Analytics.evaluate import evaluate
 
 INF = math.inf
 
