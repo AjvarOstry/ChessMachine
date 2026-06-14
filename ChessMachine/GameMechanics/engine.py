@@ -10,7 +10,7 @@ from Evaluation.evaluation import evaluate
 
 def engine(board, time_for_round):
 
-    opening_move = open_game(board, "../z_project_data/openings.bin")
+    opening_move = open_game(board, "./z_project_data/openings.bin")
     if opening_move is not None:
         return opening_move
 

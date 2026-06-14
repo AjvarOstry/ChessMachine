@@ -54,13 +54,13 @@ def uci_command_loop():
 
             wtime, btime, winc, binc, movestogo = parse_go(got_command)
 
-            if time_manager is None:
-                if game_board.turn == chess.WHITE :
-                    is_white = True
-                else:
-                    is_white = False
-
-                time_manager = TimeManager(is_white, 540000, 0)
+            # if time_manager is None:
+            #     if game_board.turn == chess.WHITE :
+            #         is_white = True
+            #     else:
+            #         is_white = False
+            is_white = True
+            time_manager = TimeManager(is_white, 540000, 0)
 
             if is_white:
                 my_time = wtime
@@ -69,8 +69,8 @@ def uci_command_loop():
                 my_time = btime
                 enemy_time = wtime
 
-            our_time = time_manager.schedlue_time(my_time, enemy_time, game_board, (game_board.ply - 10))
-
+            #our_time = time_manager.schedlue_time(my_time, enemy_time, game_board, (game_board.ply - 10))
+            our_time = 10
             best_move = engine(game_board, our_time)
 
             print(f"bestmove {best_move}")
