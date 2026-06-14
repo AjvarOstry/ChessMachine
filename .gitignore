@@ -1,3 +1,5 @@
 
 # Pycharm
 .idea
+/ChessMachine/GameMechanics/__pycache__
+/ChessMachine/Analytics/__pycache__
