@@ -1,62 +1,42 @@
 import random
 import threading
+import time
 
 from Analytics.TimeManager import TimeManager
 from GameMechanics.alpha_beta import get_best_moves
 from GameMechanics.open_game import open_game
 
 
-def engine(board):
+def engine(board, time_for_round):
 
     opening_move = open_game(board, "../z_project_data/openings.bin")
-
     if opening_move is not None:
         return opening_move
 
     legal_moves = list(board.legal_moves)
-
     if not legal_moves:
         return None
 
-    best_move = random.choice(legal_moves)
+    if len(legal_moves) == 1:
+        return legal_moves[0]
 
-    time_for_round = time_manager.schedlue_time(
-        my_time_left,
-        enemy_time_left,
-        board,
-        rounds_passed
-    )
+    start = time.time()
+    soft_deadline = start + time_for_round * 0.95
+    hard_deadline = start + time_for_round
 
-    def find_best_move(board):
+    best_move = legal_moves[0]
+    depth = 1
 
-        nonlocal best_move
+    while time.time() < soft_deadline:
 
-        current_depth = 3
+        results = get_best_moves(board, depth, 1, hard_deadline)
 
-        while True:
-            top_moves = get_best_moves(
-                board,
-                depth=current_depth,
-                k_max=1
-            )
+        if results and time.time() < hard_deadline:
+            best_move = results[0][0]
+        else:
+            break
 
-            if not top_moves:
-                return
-
-            best_move = top_moves[0][0]
-
-            current_depth += 1
-
-            # sekcja z modelem
-
-    worker = threading.Thread(
-        target=find_best_move,
-        args=(board,),
-        daemon=True
-    )
-
-    worker.start()
-    worker.join(timeout=time_for_round)
+        depth += 1
 
     return best_move
 

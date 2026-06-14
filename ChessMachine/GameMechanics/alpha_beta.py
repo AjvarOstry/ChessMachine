@@ -1,4 +1,5 @@
 import math
+import time
 
 import chess
 
@@ -6,9 +7,12 @@ from Analytics.evaluate import evaluate
 
 INF = math.inf
 
-def alpha_beta(board, depth, alpha, beta, isMax):
 
-    # do evaluate zrobię może numbą (biblioteka do kompilacji jit)
+def alpha_beta(board, depth, alpha, beta, isMax, deadline=None):
+
+    if deadline is not None and time.time() > deadline:
+        return evaluate(board)
+
     if depth == 0 or board.is_checkmate() or board.is_stalemate():
         return evaluate(board)
 
@@ -27,7 +31,8 @@ def alpha_beta(board, depth, alpha, beta, isMax):
                     depth - 1,
                     alpha,
                     beta,
-                    False
+                    False,
+                    deadline
                 )
             )
 
@@ -55,7 +60,8 @@ def alpha_beta(board, depth, alpha, beta, isMax):
                     depth - 1,
                     alpha,
                     beta,
-                    True
+                    True,
+                    deadline
                 )
             )
 
@@ -68,7 +74,7 @@ def alpha_beta(board, depth, alpha, beta, isMax):
 
         return value
 
-def get_best_moves(board, depth, k_max):
+def get_best_moves(board, depth, k_max, deadline=None):
 
     legal_moves = list(board.legal_moves)
 
@@ -86,7 +92,8 @@ def get_best_moves(board, depth, k_max):
             depth - 1,
             -INF,
             INF,
-            board.turn == chess.WHITE
+            board.turn == chess.WHITE,
+            deadline
         )
 
         board.pop()
