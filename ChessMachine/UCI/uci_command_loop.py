@@ -4,8 +4,11 @@
 
 import sys
 from GameMechanics import open_game
+from Analytics.TimeManager import TimeManager
 
 import chess
+
+from GameMechanics.engine import engine
 
 machine_name = "Chess Machine 1.0"
 author = "team NULL"
@@ -38,6 +41,7 @@ def uci_command_loop():
 
         elif got_command == "ucinewgame":
             game_board = chess.Board()
+            time_manager = None
             pass
 
         # uci wypisuje nam stan planszy
@@ -47,16 +51,28 @@ def uci_command_loop():
             pass
 
         elif got_command.startswith("go"):
-            #liczymy ruchy
-            best_move = None
 
-            mv = open_game(game_board)
-            if mv is not None:
-                best_move = mv.uci()
+            wtime, btime, winc, binc, movestogo = parse_go(got_command)
+
+            if time_manager is None:
+                if game_board.turn == chess.WHITE :
+                    is_white = True
+                else:
+                    is_white = False
+
+                time_manager = TimeManager(is_white, 540000, 0)
+
+            if is_white:
+                my_time = wtime
+                enemy_time = btime
             else:
-                pass # tu będzie nasz silnik
+                my_time = btime
+                enemy_time = wtime
 
-            print(f"info <jakieś debug info bota>") # tak se możemy logi wypluwać
+            our_time = time_manager.schedlue_time(my_time, enemy_time, game_board, (game_board.ply - 10))
+
+            best_move = engine(game_board, our_time)
+
             print(f"bestmove {best_move}")
             pass
 
@@ -86,9 +102,9 @@ def parse_go(got_command):
 
     wtime = 0
     btime = 0
-    winc = 0
-    binc = 0
-    movestogo = 0
+    winc = -1
+    binc = -1
+    movestogo = -1
 
 
     if "wtime" in command_parts:
@@ -112,3 +128,7 @@ def parse_go(got_command):
         movestogo = command_parts[movestogo_index + 1]
 
     return wtime, btime, winc, binc, movestogo
+    # wtime - czas dla białego
+    # btime - czas dla czarnego
+    # winc/binc - wzrost czasu dodatkowo
+    # movestogo - zbędne
