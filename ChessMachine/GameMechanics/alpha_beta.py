@@ -70,9 +70,14 @@ def alpha_beta(board, depth, alpha, beta, isMax):
 
 def get_best_moves(board, depth, k_max):
 
+    legal_moves = list(board.legal_moves)
+
+    if len(legal_moves) <= k_max:
+        return [(move, 0) for move in legal_moves]
+
     results = []
 
-    for move in board.legal_moves:
+    for move in legal_moves:
 
         board.push(move)
 
